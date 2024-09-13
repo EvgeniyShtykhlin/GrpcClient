@@ -1,5 +1,4 @@
 ﻿using Grpc.Net.Client;
-using GrpcService;
 
 namespace GrpcClient
 {
@@ -23,23 +22,29 @@ namespace GrpcClient
             //Console.ReadKey();
 
 
-            Console.WriteLine("WITH USERS METHODS");
-            Console.WriteLine("enter some key to start...");
-            Console.ReadKey();
-            Console.WriteLine("------------------");
+            //Console.WriteLine("WITH USERS METHODS");
+            //Console.WriteLine("enter some key to start...");
+            //Console.ReadKey();
+            //Console.WriteLine("------------------");
 
             var clientForUsersMethods = new User.UserClient(chanel);
 
             Console.WriteLine("getUser()");
+            Console.WriteLine("enter some key to start...");
+            Console.ReadKey();
             var userInfo = await clientForUsersMethods.GetUserInfoAsync(new UserRequest { UserId = 1 });
             Console.WriteLine($"Name: {userInfo.Name}");
             Console.WriteLine($"Age: {userInfo.Age}");
             Console.WriteLine($"Roles: {string.Join(", ", userInfo.Roles)}");
             Console.WriteLine($"Adress: {userInfo.Address.Street}, {userInfo.Address.City}, {userInfo.Address.Country}");
             Console.WriteLine($"Coordinates: {userInfo.Coordinates.Latitude}, {userInfo.Coordinates.Longitude}");
+            Console.WriteLine("getUser(): DONE");
+            Console.WriteLine();
 
 
             Console.WriteLine("createUser()");
+            Console.WriteLine("enter some key to start...");
+            Console.ReadKey();
             var createUserReply = await clientForUsersMethods.CreateUserAsync(new CreateUserRequest
             {
                 Name = "Alice",
@@ -57,8 +62,22 @@ namespace GrpcClient
                     Longitude = -118.243683
                 }
             });
-
             Console.WriteLine($"User created: {createUserReply.Message}");
+            Console.WriteLine("getUser(): DONE");
+            Console.WriteLine();
+
+
+            Console.WriteLine("getAllUsers()");
+            Console.WriteLine("enter some key to start...");
+            Console.ReadKey();
+            var getAllUsersReply = await clientForUsersMethods.GetAllUsersAsync(new Empty());
+            foreach (var user in getAllUsersReply.Users)
+            {
+                Console.WriteLine($"User Name: {user.Name}, Age: {user.Age}, Id: {user.Id}");
+            }
+
+            Console.WriteLine("getUser(): DONE");
+            Console.WriteLine();
         }
     }
 }
